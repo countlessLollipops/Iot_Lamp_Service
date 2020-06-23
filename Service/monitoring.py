@@ -14,7 +14,8 @@ LED_status = 0
 def get_status(request):
     global LED_status
     LED_status = get_LED_status()
-    return render(request, "monitoring.html", {'LED_status': LED_status,})
+    print(LED_status)
+    return render(request, "monitoring.html", {'LED_status': LED_status})
 
 
 def control(request):
@@ -45,9 +46,10 @@ def get_LED_status():
     ser.write(bytes.fromhex('33'))
     if ser.inWaiting():
         data = ser.read(ser.inWaiting()).hex()
-        if data == bytes.fromhex('01'):
+        print('灯的初始状态'+data)
+        if data:
             return 0
-        elif data == bytes.fromhex('00'):
+        else:
             return 1
 
 
@@ -62,7 +64,7 @@ def get_brightness():
         data = ser.read(ser.inWaiting()).hex()
         data = int(data, 16)
         data = data * 5.0 / 256.0
-        print(type(data))
+        print('当前环境亮度：'+str(data))
         return data
 
 
@@ -71,7 +73,7 @@ def get_temperature():
     if ser.inWaiting():
         data = ser.read(ser.inWaiting()).hex()
         data = int(data, 16)
-        print(data)
+        print('当前环境温度：'+str(data))
         return data
 
 
@@ -119,6 +121,8 @@ def monitor_brightness_control(brightness):
         data = 95
     elif brightness > 3.69:  # 1000~lux
         data = 100
+    else:
+        data = 0
 
     cmd = 'ddm.exe /SetBrightnessLevel ' + str(data)
     os.system(cmd)
