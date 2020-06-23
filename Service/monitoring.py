@@ -9,10 +9,16 @@ ser = serial.Serial('com2', 9600, timeout=10)
 turnon_LED = bytes.fromhex('00')
 turnoff_LED = bytes.fromhex('FF')
 print('初始化串口完毕')
+LED_status = 0
+
+def get_status(request):
+    global LED_status
+    LED_status = get_LED_status()
+    return render(request, "monitoring.html", {'LED_status': LED_status,})
 
 
 def control(request):
-    LED_status = get_LED_status()
+    global LED_status
 
     if LED_status == 0:
         ser.write(turnon_LED)
@@ -24,6 +30,7 @@ def control(request):
     # log_db(LED_status)
 
     light = get_brightness()
+    print(type(light))
     time.sleep(1)
     temperature = get_temperature()
     brightness = monitor_brightness_control(light)
@@ -55,7 +62,7 @@ def get_brightness():
         data = ser.read(ser.inWaiting()).hex()
         data = int(data, 16)
         data = data * 5.0 / 256.0
-        print(data)
+        print(type(data))
         return data
 
 

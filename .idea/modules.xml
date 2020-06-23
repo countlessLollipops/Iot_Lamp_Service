@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Service.iml" filepath="$PROJECT_DIR$/.idea/Service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Iot_lamp_Service.iml" filepath="$PROJECT_DIR$/.idea/Iot_lamp_Service.iml" />
     </modules>
   </component>
 </project>
