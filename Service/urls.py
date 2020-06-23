@@ -21,6 +21,6 @@ from . import monitoring
 
 urlpatterns = {
     path('admin/', admin.site.urls),
-    #path('monitoring/', monitoring.get_status),
-    path('monitoring/', monitoring.control),
+    path('monitoring/', monitoring.get_status),
+    path('monitoring/control', monitoring.control),
 }
